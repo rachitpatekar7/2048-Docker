@@ -20,5 +20,4 @@ EXPOSE 5000
 ENV FLASK_APP=app.py
 
 # Command to run the Flask application
-# Using 'python app.py' as per your __main__ block
 CMD ["python", "app.py"]
