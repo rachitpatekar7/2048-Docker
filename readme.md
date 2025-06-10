@@ -1,4 +1,4 @@
-Simple 2048 Implementation on Docker.
+Simple 2048 Implementation.
 
 Implementation:
 [alt text](screenshots/animation.gif)
