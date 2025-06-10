@@ -4,239 +4,495 @@
             <meta http-equiv = "refresh" content = "1; url = /autoplay/{{ suggested_move }}/{{ grid_encoding }}/{{ score }}/" />
         {% endif %}
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+            
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+                font-family: 'Inter', sans-serif;
+                min-height: 100vh;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                           radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%);
+                pointer-events: none;
+                z-index: -1;
+            }
+
             #main { 
-			    position: absolute; 
-			    width: 490px; 
-			    height: 490px; 
-			    background-color: #807979; 
-			    left: 50%;
-			    top: 50%;
-			    margin-left: -245px;
-			    margin-top: -245px;
-			 }
+                position: absolute; 
+                width: 500px; 
+                height: 500px; 
+                background: rgba(30, 30, 45, 0.95);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                left: 50%;
+                top: 50%;
+                margin-left: -250px;
+                margin-top: -250px;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
+                           0 0 100px rgba(120, 119, 198, 0.1);
+                padding: 15px;
+                animation: gameboardFloat 6s ease-in-out infinite;
+            }
+            
+            @keyframes gameboardFloat {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+            }
+
             #row { 
-			    position: relative; 
-			    width: 100%; 
-			    height: 110px; 
-			    font-size: 24px; 
-			    text-align: center; 
-			    left: 0px;
-			    top: 0px;
-				margin-top: 10px;
-			 }
-			 #field { 
-			    position: absolute; 
-			    width: 110px; 
-			    height: 110px;
-			    font-size: 24px; 
-			    text-align: center; 
-			    left: 0px;
-			    top: 0px;
-				margin-left: 10px;
-			 }
-			 #fieldnumber { 
-			    position: absolute; 
-			    width: 110px; 
-			    height: 30px;
-			    font-size: 30px; 
-			    text-align: center; 
-			    left: 0px;
-			    top: 50%;
-				margin-top: -15px;
-			 }
-			 #up { 
-			    position: absolute; 
-			    width: 100px; 
-			    height: 30px;
-			    font-size: 30px; 
-			    text-align: center; 
-			    left: 50%;
-			    top: 50%;
-				margin-left: -50px;
-				margin-top: -300px;
-			 }
-			 #down { 
-			    position: absolute; 
-			    width: 100px; 
-			    height: 30px;
-			    font-size: 30px; 
-			    text-align: center; 
-			    left: 50%;
-			    top: 50%;
-				margin-left: -50px;
-				margin-top: 280px;
-			 }
-			 #suggested_move { 
-			    position: absolute; 
-			    width: 300px; 
-			    height: 30px;
-			    font-size: 30px; 
-			    text-align: center; 
-			    left: 50%;
-			    top: 50%;
-				margin-left: -150px;
-				margin-top: 340px;
-			 }
-			 #right { 
-			    position: absolute; 
-			    width: 100px; 
-			    height: 30px;
-			    font-size: 30px; 
-			    text-align: center; 
-			    left: 50%;
-			    top: 50%;
-				margin-left: 280px;
-				margin-top: -10px;
-			 }
-			 #left { 
-			    position: absolute; 
-			    width: 100px; 
-			    height: 30px;
-			    font-size: 30px; 
-			    text-align: center; 
-			    left: 50%;
-			    top: 50%;
-				margin-left: -370px;
-				margin-top: -10px;
-			 }
-			 #score { 
-			    position: absolute; 
-			    width: 100px; 
-			    height: 80px;
-			    font-size: 30px; 
-				background-color:aqua;
-			    text-align: center; 
-			    left: 20px;
-			    top: 20px;
-			 }
-			 #game_over { 
-			    position: absolute; 
-			    width: 360px; 
-			    height: 60px;
-			    font-size: 50px; 
-				background-color:lightgray;
-			    text-align: center; 
-			    left: 50%;
-			    top: 50%;
-			    margin-left: -180px;
-			    margin-top: -30px;
-			 }
-			 .c {
-			    background-color: #9a9ba7; 
-			 }
-			 .c2 {
-			 	background-color: #efe4db;
-			 }
-			 .c4 {
-			 	background-color: #eedfc9;
-			 }
-			 .c8 {
-			 	background-color: #f2b179;
-			 }
-			 .c16 {
-			 	background-color: #ec8d55;
-			 }
-			 .c32 {
-			 	background-color: #f77c60;
-			 }
-			 .c64 {
-			 	background-color: #eb5939;
-			 }
-			 .c128 {
-			 	background-color: #f2d04b;
-			 }
-			 .c256 {
-			 	background-color: #f2d04b;
-			 }
-			 .c512 {
-			 	background-color: #e3ba12;
-			 }
-			 .c1024 {
-			 	background-color: #e3ba12;
-			 }
-			 .c2048 {
-			 	background-color: #ecc500;
-			 }
-			 .c4096 {
-			 	background-color: #61d994;
-			 }
+                position: relative; 
+                width: 100%; 
+                height: 115px; 
+                font-size: 24px; 
+                text-align: center; 
+                left: 0px;
+                top: 0px;
+                margin-top: 5px;
+                display: flex;
+                gap: 5px;
+            }
+
+            #field { 
+                position: relative;
+                width: 115px; 
+                height: 115px;
+                font-size: 24px; 
+                text-align: center; 
+                border-radius: 12px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                transform-style: preserve-3d;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            #field::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+                border-radius: 12px;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            #field:hover::before {
+                opacity: 1;
+            }
+
+            #fieldnumber { 
+                position: relative;
+                width: 100%; 
+                height: 100%;
+                font-size: 28px; 
+                font-weight: 600;
+                text-align: center; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                transition: all 0.3s ease;
+                z-index: 2;
+            }
+
+            /* Navigation Buttons */
+            .nav-button {
+                position: absolute;
+                width: 120px;
+                height: 50px;
+                border-radius: 25px;
+                background: linear-gradient(145deg, rgba(120, 119, 198, 0.8), rgba(255, 119, 198, 0.6));
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 8px 25px rgba(120, 119, 198, 0.3);
+            }
+            
+            .nav-button:hover {
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 15px 35px rgba(120, 119, 198, 0.4);
+                background: linear-gradient(145deg, rgba(120, 119, 198, 1), rgba(255, 119, 198, 0.8));
+            }
+            
+            .nav-button a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 14px;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+            }
+
+            #up { 
+                left: 50%;
+                top: 50%;
+                margin-left: -60px;
+                margin-top: -320px;
+            }
+
+            #down { 
+                left: 50%;
+                top: 50%;
+                margin-left: -60px;
+                margin-top: 280px;
+            }
+
+            #right { 
+                left: 50%;
+                top: 50%;
+                margin-left: 280px;
+                margin-top: -25px;
+            }
+
+            #left { 
+                left: 50%;
+                top: 50%;
+                margin-left: -400px;
+                margin-top: -25px;
+            }
+
+            #suggested_move { 
+                position: absolute; 
+                width: 400px; 
+                height: auto;
+                font-size: 16px; 
+                text-align: center; 
+                left: 50%;
+                top: 50%;
+                margin-left: -200px;
+                margin-top: 350px;
+                background: rgba(30, 30, 45, 0.9);
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 20px;
+                color: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            #suggested_move a {
+                color: #7877c6;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 8px 16px;
+                border-radius: 8px;
+                background: rgba(120, 119, 198, 0.1);
+                border: 1px solid rgba(120, 119, 198, 0.3);
+                display: inline-block;
+                margin: 5px;
+                transition: all 0.3s ease;
+            }
+            
+            #suggested_move a:hover {
+                background: rgba(120, 119, 198, 0.2);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(120, 119, 198, 0.3);
+            }
+
+            #score { 
+                position: absolute; 
+                width: 120px; 
+                height: 90px;
+                font-size: 24px; 
+                font-weight: 700;
+                background: linear-gradient(145deg, rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.1));
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(0, 255, 255, 0.3);
+                color: #00ffff;
+                text-align: center; 
+                left: 30px;
+                top: 30px;
+                border-radius: 15px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+                animation: scoreGlow 3s ease-in-out infinite;
+            }
+            
+            @keyframes scoreGlow {
+                0%, 100% { box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2); }
+                50% { box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4); }
+            }
+            
+            #score a {
+                color: rgba(255, 255, 255, 0.7);
+                text-decoration: none;
+                font-size: 12px;
+                font-weight: 500;
+                margin-top: 8px;
+                padding: 4px 8px;
+                border-radius: 6px;
+                background: rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            #score a:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+            }
+
+            #game_over { 
+                position: absolute; 
+                width: 400px; 
+                height: 80px;
+                font-size: 36px; 
+                font-weight: 700;
+                background: linear-gradient(145deg, rgba(255, 50, 50, 0.9), rgba(200, 0, 50, 0.8));
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                text-align: center; 
+                left: 50%;
+                top: 50%;
+                margin-left: -200px;
+                margin-top: -40px;
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 20px 40px rgba(255, 50, 50, 0.4);
+                animation: gameOverPulse 2s ease-in-out infinite;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            }
+            
+            @keyframes gameOverPulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+
+            /* Tile Colors - Dark Theme Luxury */
+            .c {
+                background: linear-gradient(145deg, rgba(60, 60, 80, 0.3), rgba(40, 40, 60, 0.5));
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: rgba(255, 255, 255, 0.3);
+            }
+
+            .c2 {
+                background: linear-gradient(145deg, #2d3436, #636e72);
+                color: #ddd;
+                box-shadow: 0 4px 15px rgba(45, 52, 54, 0.3);
+            }
+
+            .c4 {
+                background: linear-gradient(145deg, #636e72, #74b9ff);
+                color: white;
+                box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+            }
+
+            .c8 {
+                background: linear-gradient(145deg, #00b894, #00cec9);
+                color: white;
+                box-shadow: 0 4px 15px rgba(0, 206, 201, 0.4);
+            }
+
+            .c16 {
+                background: linear-gradient(145deg, #fdcb6e, #e17055);
+                color: white;
+                box-shadow: 0 4px 15px rgba(225, 112, 85, 0.4);
+            }
+
+            .c32 {
+                background: linear-gradient(145deg, #fd79a8, #e84393);
+                color: white;
+                box-shadow: 0 4px 15px rgba(232, 67, 147, 0.4);
+            }
+
+            .c64 {
+                background: linear-gradient(145deg, #a29bfe, #6c5ce7);
+                color: white;
+                box-shadow: 0 4px 15px rgba(108, 92, 231, 0.5);
+            }
+
+            .c128 {
+                background: linear-gradient(145deg, #ffeaa7, #fdcb6e);
+                color: #2d3436;
+                box-shadow: 0 6px 20px rgba(253, 203, 110, 0.5);
+                animation: tileGlow 2s ease-in-out infinite;
+            }
+
+            .c256 {
+                background: linear-gradient(145deg, #fab1a0, #e17055);
+                color: white;
+                box-shadow: 0 6px 20px rgba(225, 112, 85, 0.6);
+                animation: tileGlow 2s ease-in-out infinite;
+            }
+
+            .c512 {
+                background: linear-gradient(145deg, #ff7675, #d63031);
+                color: white;
+                box-shadow: 0 8px 25px rgba(214, 48, 49, 0.6);
+                animation: tileGlow 2s ease-in-out infinite;
+            }
+
+            .c1024 {
+                background: linear-gradient(145deg, #00b894, #00a085);
+                color: white;
+                box-shadow: 0 8px 25px rgba(0, 160, 133, 0.7);
+                animation: tileGlow 1.5s ease-in-out infinite;
+            }
+
+            .c2048 {
+                background: linear-gradient(145deg, #fdcb6e, #f39c12);
+                color: #2d3436;
+                box-shadow: 0 10px 30px rgba(243, 156, 18, 0.8);
+                animation: victoryGlow 1s ease-in-out infinite;
+                font-weight: 700;
+            }
+
+            .c4096 {
+                background: linear-gradient(145deg, #00cec9, #74b9ff);
+                color: white;
+                box-shadow: 0 12px 35px rgba(116, 185, 255, 0.8);
+                animation: victoryGlow 1s ease-in-out infinite;
+                font-weight: 700;
+            }
+            
+            @keyframes tileGlow {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+            }
+            
+            @keyframes victoryGlow {
+                0%, 100% { 
+                    transform: scale(1);
+                    filter: brightness(1);
+                }
+                50% { 
+                    transform: scale(1.05);
+                    filter: brightness(1.2);
+                }
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                #main {
+                    width: 90vw;
+                    height: 90vw;
+                    max-width: 400px;
+                    max-height: 400px;
+                    margin-left: -45vw;
+                    margin-top: -45vw;
+                }
+                
+                #field {
+                    width: calc(22vw - 5px);
+                    height: calc(22vw - 5px);
+                    max-width: 95px;
+                    max-height: 95px;
+                }
+                
+                .nav-button {
+                    width: 80px;
+                    height: 40px;
+                    font-size: 12px;
+                }
+            }
         </style>
     </head>
     <body>
-		<div id="main">
-			<div id="row">
-				<div id="field" class="c{{ r1c1 }}">
-					<div id="fieldnumber">{{ r1c1 }}</div>
-				</div>
-				<div id="field" class="c{{ r1c2 }}" style="left: 120px">
-					<div id="fieldnumber">{{ r1c2 }}</div>
-				</div>
-				<div id="field" class="c{{ r1c3 }}" style="left: 240px">
-					<div id="fieldnumber">{{ r1c3 }}</div>
-				</div>
-				<div id="field" class="c{{ r1c4 }}" style="left: 360px">
-					<div id="fieldnumber">{{ r1c4 }}</div>
-				</div>
-			</div>
+        <div id="main">
+            <div id="row">
+                <div id="field" class="c{{ r1c1 }}">
+                    <div id="fieldnumber">{{ r1c1 }}</div>
+                </div>
+                <div id="field" class="c{{ r1c2 }}">
+                    <div id="fieldnumber">{{ r1c2 }}</div>
+                </div>
+                <div id="field" class="c{{ r1c3 }}">
+                    <div id="fieldnumber">{{ r1c3 }}</div>
+                </div>
+                <div id="field" class="c{{ r1c4 }}">
+                    <div id="fieldnumber">{{ r1c4 }}</div>
+                </div>
+            </div>
 
-			<div id="row">
-				<div id="field" class="c{{ r2c1 }}">
-					<div id="fieldnumber">{{ r2c1 }}</div>
-				</div>
-				<div id="field" class="c{{ r2c2 }}" style="left: 120px">
-					<div id="fieldnumber">{{ r2c2 }}</div>
-				</div>
-				<div id="field" class="c{{ r2c3 }}" style="left: 240px">
-					<div id="fieldnumber">{{ r2c3 }}</div>
-				</div>
-				<div id="field" class="c{{ r2c4 }}" style="left: 360px">
-					<div id="fieldnumber">{{ r2c4 }}</div>
-				</div>
-			</div>
+            <div id="row">
+                <div id="field" class="c{{ r2c1 }}">
+                    <div id="fieldnumber">{{ r2c1 }}</div>
+                </div>
+                <div id="field" class="c{{ r2c2 }}">
+                    <div id="fieldnumber">{{ r2c2 }}</div>
+                </div>
+                <div id="field" class="c{{ r2c3 }}">
+                    <div id="fieldnumber">{{ r2c3 }}</div>
+                </div>
+                <div id="field" class="c{{ r2c4 }}">
+                    <div id="fieldnumber">{{ r2c4 }}</div>
+                </div>
+            </div>
 
-			<div id="row">
-				<div id="field" class="c{{ r3c1 }}">
-					<div id="fieldnumber">{{ r3c1 }}</div>
-				</div>
-				<div id="field" class="c{{ r3c2 }}" style="left: 120px">
-					<div id="fieldnumber">{{ r3c2 }}</div>
-				</div>
-				<div id="field" class="c{{ r3c3 }}" style="left: 240px">
-					<div id="fieldnumber">{{ r3c3 }}</div>
-				</div>
-				<div id="field" class="c{{ r3c4 }}" style="left: 360px">
-					<div id="fieldnumber">{{ r3c4 }}</div>
-				</div>
-			</div>
+            <div id="row">
+                <div id="field" class="c{{ r3c1 }}">
+                    <div id="fieldnumber">{{ r3c1 }}</div>
+                </div>
+                <div id="field" class="c{{ r3c2 }}">
+                    <div id="fieldnumber">{{ r3c2 }}</div>
+                </div>
+                <div id="field" class="c{{ r3c3 }}">
+                    <div id="fieldnumber">{{ r3c3 }}</div>
+                </div>
+                <div id="field" class="c{{ r3c4 }}">
+                    <div id="fieldnumber">{{ r3c4 }}</div>
+                </div>
+            </div>
 
-			<div id="row">
-				<div id="field" class="c{{ r4c1 }}">
-					<div id="fieldnumber">{{ r4c1 }}</div>
-				</div>
-				<div id="field" class="c{{ r4c2 }}" style="left: 120px">
-					<div id="fieldnumber">{{ r4c2 }}</div>
-				</div>
-				<div id="field" class="c{{ r4c3 }}" style="left: 240px">
-					<div id="fieldnumber">{{ r4c3 }}</div>
-				</div>
-				<div id="field" class="c{{ r4c4 }}" style="left: 360px">
-					<div id="fieldnumber">{{ r4c4 }}</div>
-				</div>
-			</div>
-		</div>
+            <div id="row">
+                <div id="field" class="c{{ r4c1 }}">
+                    <div id="fieldnumber">{{ r4c1 }}</div>
+                </div>
+                <div id="field" class="c{{ r4c2 }}">
+                    <div id="fieldnumber">{{ r4c2 }}</div>
+                </div>
+                <div id="field" class="c{{ r4c3 }}">
+                    <div id="fieldnumber">{{ r4c3 }}</div>
+                </div>
+                <div id="field" class="c{{ r4c4 }}">
+                    <div id="fieldnumber">{{ r4c4 }}</div>
+                </div>
+            </div>
+        </div>
+        
         {% if not game_over %}
-			<div id="up"><a href="/move/up/{{ grid_encoding }}/{{ score}}/">UP</a></div>
-			<div id="right"><a href="/move/right/{{ grid_encoding }}/{{ score}}/">RIGHT</a></div>
-			<div id="down"><a href="/move/down/{{ grid_encoding }}/{{ score}}/">DOWN</a></div>
-			<div id="left"><a href="/move/left/{{ grid_encoding }}/{{ score}}/">LEFT</a></div>
-			<div id="suggested_move">
-			    Suggested Move: <a href="/move/{{ suggested_move }}/{{ grid_encoding }}/{{ score }}/">{{ suggested_move }}</a><br>
-			    <a href="/autoplay/{{ suggested_move }}/{{ grid_encoding }}/{{ score }}/">Autoplay</a>
-			</div>
-		{% else %}
-		    <div id="game_over">Game Over!</div>
-		{% endif %}
+            <div id="up" class="nav-button"><a href="/move/up/{{ grid_encoding }}/{{ score}}/">UP</a></div>
+            <div id="right" class="nav-button"><a href="/move/right/{{ grid_encoding }}/{{ score}}/">RIGHT</a></div>
+            <div id="down" class="nav-button"><a href="/move/down/{{ grid_encoding }}/{{ score}}/">DOWN</a></div>
+            <div id="left" class="nav-button"><a href="/move/left/{{ grid_encoding }}/{{ score}}/">LEFT</a></div>
+            <div id="suggested_move">
+                Suggested Move: <a href="/move/{{ suggested_move }}/{{ grid_encoding }}/{{ score }}/">{{ suggested_move }}</a><br>
+                <a href="/autoplay/{{ suggested_move }}/{{ grid_encoding }}/{{ score }}/">Autoplay</a>
+            </div>
+        {% else %}
+            <div id="game_over">Game Over!</div>
+        {% endif %}
 
-		<div id="score">{{ score }}<br><a href="/">Restart</a></div>
+        <div id="score">{{ score }}<br><a href="/">Restart</a></div>
     </body>
 </html>
